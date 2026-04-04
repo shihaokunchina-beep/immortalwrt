@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4   # ✅ 升级到 v4，避免 Node.js 20 弃用警告
+        uses: actions/checkout@v4
 
       - name: Install build dependencies
         run: |
@@ -30,17 +30,17 @@ jobs:
           cp .config .config.orig
           make defconfig
 
-      - name: Build firmware
-        run: make -j$(nproc)
+      - name: Build firmware (single-thread verbose)
+        run: make -j1 V=s
 
       - name: Upload firmware artifacts
-        uses: actions/upload-artifact@v4   # ✅ 升级到 v4
+        uses: actions/upload-artifact@v4
         with:
           name: firmware
           path: bin/targets/mediatek/filogic/
 
       - name: Upload package artifacts
-        uses: actions/upload-artifact@v4   # ✅ 升级到 v4
+        uses: actions/upload-artifact@v4
         with:
           name: packages
           path: bin/packages/
